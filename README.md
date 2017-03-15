@@ -60,3 +60,5 @@ It is likely that there are rss files out there that brake the script. Feel free
 
 The filtering of Atom-Feeds is in principle quite similar and should be possible with a few changes in the script, but will
 not work out of the box.
+
+See also https://github.com/dperelman/feed_filter, where you find a similar functionality (less flexible, but with propper parsing of the feed's xml structure)
