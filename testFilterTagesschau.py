@@ -17,6 +17,8 @@ class TestFilterRSS(unittest.TestCase):
 <item>7 Regional <link>http://www.tagesschau.de/ardimport/regional/</link></item>
 <item>8 Videoblog <link>http://www.tagesschau.de/videoblog/</link></item>
 <item>9 anderes <link>something-diffeent</link></item>
+<item>10 Regional2 <link>http://www.rbb-online.de/123</link></item>
+<item>11 Regionalsport2 <link>http://www.rbb-online.de/sport/345</link></item>
 footer\n"""
 
 		#array containing the lines of instring
@@ -36,7 +38,7 @@ footer\n"""
 			stderr=subprocess.STDOUT
 		)
 		o, e = p.communicate(self.instring.encode('utf-8'))
-		should = self.subInstring([4,5,6,7,8,9])
+		should = self.subInstring([4,5,6,7,8,9,10])
 		self.assertEqual(o, should.encode('utf-8'), "\n\noutput:\n"+o.decode('utf-8')+"\nshould be:\n"+should)	
 
 	def test_Ausland_Inland_Kultur(self):
@@ -56,7 +58,7 @@ footer\n"""
 			stderr=subprocess.STDOUT
 		)
 		o, e = p.communicate(self.instring.encode('utf-8'))
-		should = self.subInstring([7,8])
+		should = self.subInstring([7,8,10])
 		self.assertEqual(o, should.encode('utf-8'), "\n\noutput:\n"+o.decode('utf-8')+"\nshould be:\n"+should)
 
 	def test_anderes(self):
@@ -67,7 +69,7 @@ footer\n"""
 		)
 		o, e = p.communicate(self.instring.encode('utf-8'))
 		should = self.subInstring([9])
-		self.assertEqual(o, should.encode('utf-8'), "\n\noutput:\n"+o.decode('utf-8')+"\nshould be:\n"+should)	
+		self.assertEqual(o, should.encode('utf-8'), "\n\noutput:\n"+o.decode('utf-8')+"\nshould be:\n"+should)
 
 if __name__ == "__main__":
 		

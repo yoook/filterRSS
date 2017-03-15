@@ -7,7 +7,7 @@ items and prints the remaining feed to stdout.
 
 
 ## Usage
-This is a Python script that was developed with Python 3.5, but might still work with Python 2.7 (tests to be done).
+This is a Python script that was developed with Python 3.5, but should still work with Python 2.7.
 
 It reads from standard input and writes to standard output. If you want to work on files, you can do this on Linux with
 `./filterRSS.py [options] < inputfile > outputfile`.

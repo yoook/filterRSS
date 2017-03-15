@@ -27,7 +27,7 @@ def filter_item(item_string, criteria):
 def filter_item_Sport(link):
 	return (link.startswith("http://www1.sportschau.de/") 
 		or link.startswith("http://www.sportschau.de/")
-		or "sport" in link.split("/")[:-1])
+		or "sport" in link.split("/")[:-1])		#Sport should include any form of Regionalsport
 
 def filter_item_Regionalsport(link):
 	return link.startswith("http://www.tagesschau.de/ardimport/sport/")
@@ -46,7 +46,14 @@ def filter_item_Kultur(link):
 	return link.startswith("http://www.tagesschau.de/kultur/")
 
 def filter_item_Regional(link):
-	return link.startswith("http://www.tagesschau.de/ardimport/regional/")
+	return (link.startswith("http://www.tagesschau.de/ardimport/regional/")
+		or (link.startswith("http://hessenschau.de/")
+				or link.startswith("http://www.rbb-online.de/")
+			) and not (filter_item_Sport(link)
+	))
 
 def filter_item_Videoblog(link):
 	return link.startswith("http://www.tagesschau.de/videoblog/")
+
+def filter_item_Eilmeldung(link):
+	return link.startswith("http://www.tagesschau.de/eilmeldung/")
