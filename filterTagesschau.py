@@ -15,7 +15,7 @@ def filter_item(item_string, criteria):
 	if "Videoblog"  in criteria and filter_item_Videoblog(link_string): return True
 	if "Wirtschaft" in criteria and filter_item_Wirtschaft(link_string): return True
 	if "anderes"   in criteria:
-		if not filter_item_Ausland(link_string) and not filter_item_Inland(link_string) and not filter_item_Kultur(link_string) and not filter_item_Regional(link_string) and not filter_item_Videoblog(link_string) and not filter_item_Wirtschaft(link_string):
+		if not filter_item_Ausland(link_string) and not filter_item_Inland(link_string) and not filter_item_Kultur(link_string) and not filter_item_Regional(link_string) and not filter_item_Videoblog(link_string) and not filter_item_Wirtschaft(link_string) and not filter_item_Kommentar(link_string) and not filter_item_kurzerklärt(link_string) and not filter_item_Schlusslicht(link_string):
 			return True
 	if "alles"     in criteria: return True #still no sport!
 
@@ -36,7 +36,8 @@ def filter_item_Ausland(link):
 	return link.startswith("http://www.tagesschau.de/ausland/")
 		
 def filter_item_Inland(link):
-	return link.startswith("http://www.tagesschau.de/inland/")
+	return (link.startswith("http://www.tagesschau.de/inland/")
+		or link.startswith("http://wahl.tagesschau.de/wahlen/"))
 
 def filter_item_Wirtschaft(link):
 	return (link.startswith("http://www.tagesschau.de/wirtschaft/") 
@@ -49,6 +50,10 @@ def filter_item_Regional(link):
 	return (link.startswith("http://www.tagesschau.de/ardimport/regional/")
 		or (link.startswith("http://hessenschau.de/")
 				or link.startswith("http://www.rbb-online.de/")
+				or link.startswith("http://www1.wdr.de/")
+				or link.startswith("http://www.mdr.de/")
+				or link.startswith("http://www.sr.de/")
+				or link.startswith("http://www.ndr.de/")
 			) and not (filter_item_Sport(link)
 	))
 
@@ -57,3 +62,12 @@ def filter_item_Videoblog(link):
 
 def filter_item_Eilmeldung(link):
 	return link.startswith("http://www.tagesschau.de/eilmeldung/")
+
+def filter_item_Kommentar(link):
+	return link.startswith("http://www.tagesschau.de/kommentar/")
+
+def filter_item_kurzerklärt(link):
+	return link.startswith("http://www.tagesschau.de/multimedia/kurzerklaert/")
+
+def filter_item_Schlusslicht(link):
+	return link.startswith("http://www.tagesschau.de/")
