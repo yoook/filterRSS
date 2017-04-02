@@ -16,7 +16,7 @@ class TestFilterRSS(unittest.TestCase):
 <item>6 Kultur <link>http://www.tagesschau.de/kultur/</link></item>
 <item>7 Regional <link>http://www.tagesschau.de/ardimport/regional/</link></item>
 <item>8 Videoblog <link>http://www.tagesschau.de/videoblog/</link></item>
-<item>9 anderes <link>something-diffeent</link></item>
+<item>9 anderes <link>something-different</link></item>
 <item>10 Regional2 <link>http://www.rbb-online.de/123</link></item>
 <item>11 Regionalsport2 <link>http://www.rbb-online.de/sport/345</link></item>
 footer\n"""
@@ -31,8 +31,18 @@ footer\n"""
 		self.subInstring = lambda t:'\n'.join(self.instringSubArray([0]+list(t)+[-2, -1]))
 
 
-	def test_all_but_sport(self):
+	def test_all(self):
 		p = subprocess.Popen(['./filterRSS.py', 'filterTagesschau', 'alles'],
+			stdin=subprocess.PIPE,
+			stdout=subprocess.PIPE,
+			stderr=subprocess.STDOUT
+		)
+		o, e = p.communicate(self.instring.encode('utf-8'))
+		should = self.subInstring([1,2,3,4,5,6,7,8,9,10,11])
+		self.assertEqual(o, should.encode('utf-8'), "\n\noutput:\n"+o.decode('utf-8')+"\nshould be:\n"+should)	
+
+	def test_alles_außer_Sport(self):
+		p = subprocess.Popen(['./filterRSS.py', 'filterTagesschau', 'alles-außer-Sport'],
 			stdin=subprocess.PIPE,
 			stdout=subprocess.PIPE,
 			stderr=subprocess.STDOUT
