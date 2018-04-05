@@ -3,49 +3,65 @@
 from sys import stdin, argv
 from importlib import import_module
 
-def get_count(input_string):
-	return input_string.count("<item>")
+def is_Atom(input_string):
+	return not not input_string.count("<feed")
+
+def get_item_count(input_string):
+	return input_string.count("<item>") + input_string.count("<entry>")
 
 #breaks on feeds with more than one channel
 #assume, that there are items
 def get_header(input_string):
-	return input_string.split("<item>", 1)[0]
+	item_tag = "<entry>" if is_Atom(input_string) else "<item>"
+	return input_string.split(item_tag, 1)[0]
 
 def get_footer(input_string):
-	return input_string.rsplit("</item>", 1)[-1]
+	item_end_tag = "</entry>" if is_Atom(input_string) else "</item>"
+	return input_string.rsplit(item_end_tag, 1)[-1]
 
 def get_items(input_string):
-	item_list = input_string.split("<item>")[1:]
-	return [item.split("</item>")[0] for item in item_list]
+	item_tag_name = "entry" if is_Atom(input_string) else "item"
+	item_list = input_string.split("<"+item_tag_name+">")[1:]
+	return [item.split("</"+item_tag_name+">")[0] for item in item_list]
 
 
 def get_tag_content(item_string, tag_name):
 	"""extract the content of a tag named tag_name.
-	assume, there is only one tag with this name and no tags whose name starts with the same string"""
+	Use the first tag, that starts with the given name"""
 	try:
-		return item_string.split("<"+tag_name, 1)[1].split(">", 1)[1].rsplit("</"+tag_name+">",1)[0]
+		return item_string.split("<"+tag_name, 1)[1].split(">", 1)[1].split("</"+tag_name+">",1)[0]
 	except:
 		return ""
 
 
+def get_tag_attribute(item_string, tag_name, attribute_name):
+	"""extract a certain attribute from a tag.
+	Use the first tag an the first attribute that start with the given names"""
+	try:
+		attribute_string = item_string.split("<"+tag_name, 1)[1].split(">", 1)[0].split(attribute_name+"=", 1)[1]
+		return attribute_string.split(attribute_string[0])[1]
+	except:
+		return ""
+
 
 if __name__ == "__main__":
-	instring = stdin.read()
+	input_string = stdin.read()
 	if len(argv) >=2:
 		customFilter = import_module(argv[1])
 		show_content = argv[2:]
 
-	count = get_count(instring)
+	count = get_item_count(input_string)
 	if count==0:
-		print(instring)
+		print(input_string)
 	else:	#assume that there are items
-		header = get_header(instring)
-		items = get_items(instring)
-		footer = get_footer(instring)
+		header = get_header(input_string)
+		items = get_items(input_string)
+		footer = get_footer(input_string)
 
 		print(header.strip())
+		item_tag_name = "entry" if is_Atom(input_string) else "item"
 		for item in items:
 			if customFilter.filter_item(item, show_content):
-				print("<item>" + item + "</item>")
+				print("<"+item_tag_name+">" + item + "</"+item_tag_name+">")
 		print(footer.strip())
 		

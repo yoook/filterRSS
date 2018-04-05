@@ -1,5 +1,5 @@
 # filterRSS
-Filter RSS feeds for use in feedreaders
+Filter RSS and Atom feeds for use in feedreaders
 
 This script is intended to be used with the [Liferea](https://lzone.de/liferea/) feed reader,
 but might work with other feed readers as well. It reads the content of an rss feed file from stdin, removes some
@@ -42,7 +42,7 @@ implementing the filter) as the second argument.
 
 It is expected to return `True` if the item shall stay in the rss feed or `False` if it shall be removed.
 
-As you might wish to have different filter functions for different rss feeds, you have to select the file implementing the
+As you might wish to have different filter functions for different rss or atom feeds, you have to select the file implementing the
 desired filter function as the first option to `filterRSS.py`.
 
 ## Usage with Liferea
@@ -55,10 +55,9 @@ except the "Wirtschaft" (economy) and "Kultur" (culture) section.
 
 ## Remarks and limitations
 For the sake of simplicity this script does not do a complete parsing or syntax checking of the rss file and does not
-treat the rss file as a tree datastructure. Instead it does some search-and-replace operations on the plain string.
-It is likely that there are rss files out there that brake the script. Feel free to open an issue if you find a problem.
+treat the rss or atom file as a tree datastructure. Instead it does some search-and-replace operations on the plain string.
+It is likely that there are rss and atom files out there that brake the script. Feel free to open an issue if you find a problem.
 
-The filtering of Atom-Feeds is in principle quite similar and should be possible with a few changes in the script, but will
-not work out of the box.
+It should be autodetected, if the current feed is an rss or an atom feed so no configuration in that regard is required.
 
 See also https://github.com/dperelman/feed_filter, where you find a similar functionality (less flexible, but with propper parsing of the feed's xml structure)
